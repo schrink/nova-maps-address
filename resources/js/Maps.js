@@ -1,7 +1,8 @@
 import AddressFormatter from './AddressFormatter'
 
 class Maps {
-    constructor(settings) {
+    constructor(settings, uniqueId) {
+        this.uniqueId = uniqueId || 'default';
         this.settings = {...settings}
 
         this.events = {}
@@ -35,7 +36,7 @@ class Maps {
 
     initializeServices() {
         this.map = new google.maps.Map(
-            document.getElementById('nova-maps-address-container'),
+            document.getElementById(`nova-maps-address-container-${this.uniqueId}`),
             {
                 zoom: this.settings.zoom,
                 center: this.settings.center,

@@ -18,39 +18,48 @@ class MapsAddress extends Field
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
+        // Generate a unique ID for the map instance
+        $uniqueId = uniqid();
+
+        // Pass the unique ID to the Vue component
+        $this->withMeta(['uniqueId' => $uniqueId]);
+
         $this->googleKey()->zoom(10)->center(['lat' => 52.370216, 'lng' => 4.895168])->types(['address'])->allowMapClick(true);
     }
 
     /**
      * Allow user to click on map to get the address
-     * @param bool $allowMapClick 
-     * @return $this 
+     * @param bool $allowMapClick
+     * @return $this
      */
-    public function allowMapClick(bool $allowMapClick) {
+    public function allowMapClick(bool $allowMapClick)
+    {
         return $this->withMeta(['allowMapClick' => $allowMapClick]);
-    } 
+    }
 
     /**
-     * All options can be found at https://developers.google.com/maps/documentation/javascript/reference/places-widget#Autocomplete 
-     * @param array $autoCompleteOptions 
+     * All options can be found at https://developers.google.com/maps/documentation/javascript/reference/places-widget#Autocomplete
+     * @param array $autoCompleteOptions
      * @return MapsAddress
      */
-    public function autoCompleteOptions(array $autoCompleteOptions){
+    public function autoCompleteOptions(array $autoCompleteOptions)
+    {
         return $this->withMeta(['autoCompleteOptions' => $autoCompleteOptions]);
-    } 
+    }
 
     /**
      * @param array $center
      * @return MapsAddress
      */
-    public function center(array $center) {
+    public function center(array $center)
+    {
         if (isset($this->meta['center'])) {
             $center = array_merge($this->meta['center'], $center);
         }
 
         return $this->withMeta(['center' => $center]);
     }
-    
+
     /**
      * @param NovaRequest $request
      * @param string $requestAttribute
@@ -65,8 +74,8 @@ class MapsAddress extends Field
 
     /**
      * All options can be found at https://developers.google.com/maps/documentation/javascript/reference/geocoder#GeocoderRequest
-     * @param array $geocodeOptions 
-     * @return MapsAddress 
+     * @param array $geocodeOptions
+     * @return MapsAddress
      */
     public function geocodeOptions(array $geocodeOptions)
     {
@@ -76,7 +85,8 @@ class MapsAddress extends Field
     /**
      * @return MapsAddress
      */
-    public function googleKey() {
+    public function googleKey()
+    {
         return $this->withMeta([
             'googleKey' => config('nova.maps-address-field.key')
         ]);
@@ -84,8 +94,8 @@ class MapsAddress extends Field
 
     /**
      * All options can be found at https://developers.google.com/maps/documentation/javascript/reference/map#MapOptions
-     * @param array $mapOptions 
-     * @return MapsAddress 
+     * @param array $mapOptions
+     * @return MapsAddress
      */
     public function mapOptions(array $mapOptions)
     {
@@ -94,15 +104,16 @@ class MapsAddress extends Field
 
     /**
      * All options can be found at https://developers.google.com/maps/documentation/javascript/url-params
-     * @param array $scriptUrlParams 
-     * @return $this 
+     * @param array $scriptUrlParams
+     * @return $this
      */
     public function scriptUrlParams(array $scriptUrlParams)
     {
         return $this->withMeta(['scriptUrlParams' => $scriptUrlParams]);
     }
 
-    public function types(array $types) {
+    public function types(array $types)
+    {
         return $this->withMeta(['types' => $types]);
     }
 
